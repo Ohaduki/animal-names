@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 def get_page(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -22,7 +23,7 @@ def get_adjectives():
                 else:
                     url = f"https://en.wikipedia.org/"
                 try:
-                    get_image("https:" + get_src(url), name)
+                    extension = get_image("https:" + get_src(url), name)
                 except Exception as e:
                     print(f'Error: {name}')
                     print(cells[0].find('a')['href'])
@@ -30,9 +31,9 @@ def get_adjectives():
                     print(get_src(url))
                     print(e)
                 if cells[5].text not in adjectives.keys():
-                    adjectives[cells[5].text] = [name]
+                    adjectives[cells[5].text] = [(name, extension)]
                 else:
-                    adjectives[cells[5].text].append(name)
+                    adjectives[cells[5].text].append((name, extension))
     return adjectives
 
 def get_src(url):
@@ -62,6 +63,37 @@ def get_image(url, name):
             file.write(response.content)
     else:
         print(f'Error: {response.status_code}')
+    return extension
 
 
-get_adjectives()
+
+def html_export(adjectives):
+    body = ""
+
+    for adjective in adjectives.keys():
+        body += f"<h1>{adjective}</h1>"
+        body += "<ul>"
+        for name in adjectives[adjective]:
+            body += f"<li>{name[0]}</li>"
+            body += f"<img src='tmp/{name[0]}.{name[1]}'/>"
+        body += "</ul>"
+    
+    html = f"""
+        <!DOCTYPE html>
+        <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+            </head>
+            <body>
+            {body}
+            </body>
+        </html>
+    """
+
+    with open('index.html', 'w') as file:
+        file.write(html)
+
+
+html_export(get_adjectives())
