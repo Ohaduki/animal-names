@@ -12,7 +12,7 @@ def html_export(adjectives: dict[str, list[tuple[str, str]]]):
     """
     body = ""
 
-    for adjective in adjectives.keys():
+    for adjective in sorted(adjectives.keys()):
         body += f"<h1>{adjective}</h1>"
         body += "<ul>"
         for name in adjectives[adjective]:
