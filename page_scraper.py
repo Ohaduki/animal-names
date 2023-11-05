@@ -21,8 +21,3 @@ def get_adjectives():
                     adjectives[cells[5].text].append(cells[0].text)
     return adjectives
 
-print(get_adjectives())
-            
-
-
-get_adjectives()
