@@ -1,5 +1,3 @@
-
-
 def html_export(adjectives: dict[str, list[tuple[str, str]]]):
     """
     Creates an HTML file from the given adjectives dictionary.

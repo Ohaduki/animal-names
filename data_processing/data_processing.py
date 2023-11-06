@@ -1,4 +1,4 @@
-from scraping_tools import get_page, get_src, get_image
+from scraping_tools.scraping_tools import get_page, get_src, get_image
 
 
 def get_adjectives() -> dict[str, list[tuple[str, str]]]:
